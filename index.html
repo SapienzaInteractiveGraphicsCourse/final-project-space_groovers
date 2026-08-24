@@ -351,6 +351,62 @@
     </div>
   </div>
 
+  <script type="module">
+    window.isMissionStarted = false;
+
+    window.updateEnergyUI = function(energy) {
+      const energyBar = document.getElementById('energy-bar');
+      const energyText = document.getElementById('energy-text');
+      const dangerOverlay = document.getElementById('danger-overlay');
+
+      if (energyBar) energyBar.style.width = Math.max(0, Math.min(100, energy)) + '%';
+      if (energyText) energyText.textContent = Math.round(energy) + '%';
+
+      if (energy <= 10 && energy > 0 && window.isMissionStarted) {
+        dangerOverlay.classList.add('active');
+      } else {
+        dangerOverlay.classList.remove('active');
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const startBtn = document.getElementById('start-btn');
+      const startOverlay = document.getElementById('start-overlay');
+      const hud = document.getElementById('hud');
+      const bgMusic = document.getElementById('bg-music');
+
+      // Regola il volume della traccia (0.0 = muto, 1.0 = massimo)
+      if (bgMusic) bgMusic.volume = 0.4;
+
+      startBtn.addEventListener('click', () => {
+        window.isMissionStarted = true;
+
+        // Avvia la musica di sottofondo
+        if (bgMusic) {
+          bgMusic.play().catch(err => {
+            console.warn('Riproduzione audio bloccata dal browser:', err);
+          });
+        }
+
+        startOverlay.classList.add('hidden');
+        hud.classList.remove('hidden');
+        document.body.classList.add('lil-gui-visible');
+      });
+
+      // Riavvia la musica se si clicca RESTART da GameOver o Victory
+      const restartBtns = [document.getElementById('restart-btn'), document.getElementById('victory-restart-btn')];
+      restartBtns.forEach(btn => {
+        if (btn) {
+          btn.addEventListener('click', () => {
+            if (bgMusic) {
+              bgMusic.currentTime = 0;
+              bgMusic.play();
+            }
+          });
+        }
+      });
+    });
+  </script>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>
