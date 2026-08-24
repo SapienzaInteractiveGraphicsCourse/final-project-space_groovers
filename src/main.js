@@ -78,8 +78,20 @@ const spaceProbe = new SpaceProbe(scene);
 function updateShipTexture() {
   spaceProbe.probeGroup.traverse((child) => {
     if (child.isMesh && child.material) {
-      // Modifica il materiale primario della scocca della navicella
-      if (child.material.name === 'hullMaterial' || !child.material.emissiveMap) {
+      // 1. Identifica ed escludi le parti relative al fuoco/motore
+      const materialName = (child.material.name || '').toLowerCase();
+      const meshName = (child.name || '').toLowerCase();
+
+      const isThrusterOrFlame = 
+        materialName.includes('flame') || 
+        materialName.includes('thruster') || 
+        materialName.includes('engine') ||
+        meshName.includes('flame') || 
+        meshName.includes('thruster') ||
+        child.material.type === 'MeshBasicMaterial'; // Il fuoco di solito usa MeshBasicMaterial per l'effetto luminoso
+
+      // 2. Applica la texture SOLO alla scocca (Hull)
+      if (!isThrusterOrFlame) {
         child.material.color.setHex(shipTheme.color);
         child.material.roughness = shipTheme.roughness;
         child.material.needsUpdate = true;
