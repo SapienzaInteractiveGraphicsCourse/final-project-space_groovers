@@ -78,8 +78,18 @@ const spaceProbe = new SpaceProbe(scene);
 function updateShipTexture() {
   spaceProbe.probeGroup.traverse((child) => {
     if (child.isMesh && child.material) {
-      // Modifica il materiale primario della scocca della navicella
-      if (child.material.name === 'hullMaterial' || !child.material.emissiveMap) {
+      const materialName = (child.material.name || '').toLowerCase();
+      const meshName = (child.name || '').toLowerCase();
+
+      const isThrusterOrFlame = 
+        materialName.includes('flame') || 
+        materialName.includes('thruster') || 
+        materialName.includes('engine') ||
+        meshName.includes('flame') || 
+        meshName.includes('thruster') ||
+        child.material.type === 'MeshBasicMaterial';
+
+      if (!isThrusterOrFlame) {
         child.material.color.setHex(shipTheme.color);
         child.material.roughness = shipTheme.roughness;
         child.material.needsUpdate = true;
@@ -100,7 +110,7 @@ document.querySelectorAll('.crystal-card').forEach(card => {
     crystalTheme.emissive = parseInt(target.getAttribute('data-emissive'));
 
     if (!isMissionStarted) {
-      spawnAllRocks();
+      spawnAllEntities();
     }
   });
 });
@@ -126,6 +136,9 @@ startBtn.addEventListener('click', () => {
   document.getElementById('hud').classList.remove('hidden');
   document.body.classList.add('lil-gui-visible');
   isMissionStarted = true;
+
+  // Rigenera entità all'inizio della missione in base alla modalità
+  spawnAllEntities();
 });
 
 restartBtn.addEventListener('click', () => {
@@ -167,11 +180,55 @@ function updateEnergyUI() {
   }
 }
 
-// 5. Crystal Spawning
+// -------------------------------------------------------------
+// 5. Crystal & Satellite Spawning with Collision Avoidance
+// -------------------------------------------------------------
 const rocks = [];
 const TOTAL_ROCKS = 6;
 totalRocksEl.textContent = TOTAL_ROCKS;
 let score = 0;
+
+const satellites = [];
+
+function createSatelliteMesh(pos) {
+  const satGroup = new THREE.Group();
+
+  const bodyGeo = new THREE.BoxGeometry(1.4, 1.8, 1.4);
+  const bodyMat = new THREE.MeshStandardMaterial({
+    color: 0x667788,
+    metalness: 0.85,
+    roughness: 0.2
+  });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  satGroup.add(body);
+
+  const panelGeo = new THREE.BoxGeometry(3.6, 0.05, 0.9);
+  const panelMat = new THREE.MeshStandardMaterial({
+    color: 0x001133,
+    emissive: 0x002266,
+    metalness: 0.9,
+    roughness: 0.1
+  });
+  const panels = new THREE.Mesh(panelGeo, panelMat);
+  satGroup.add(panels);
+
+  const dishGeo = new THREE.ConeGeometry(0.6, 0.4, 16, 1, true);
+  const dishMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.1 });
+  const dish = new THREE.Mesh(dishGeo, dishMat);
+  dish.position.set(0, 1.1, 0);
+  dish.rotation.x = Math.PI;
+  satGroup.add(dish);
+
+  const beaconGeo = new THREE.SphereGeometry(0.15, 8, 8);
+  const beaconMat = new THREE.MeshBasicMaterial({ color: 0xff0033 });
+  const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+  beacon.position.set(0, -1.0, 0);
+  satGroup.add(beacon);
+
+  satGroup.position.copy(pos);
+  scene.add(satGroup);
+  satellites.push(satGroup);
+}
 
 function createPreciousRock(pos) {
   const rockGroup = new THREE.Group();
@@ -202,22 +259,105 @@ function createPreciousRock(pos) {
   rocks.push(rockGroup);
 }
 
+function spawnSatellites(count = 10) {
+  satellites.forEach(sat => scene.remove(sat));
+  satellites.length = 0;
+
+  if (window.gameMode !== 'hardcore') return;
+
+  for (let i = 0; i < count; i++) {
+    let validPosition = false;
+    let randomPos = new THREE.Vector3();
+    let attempts = 0;
+
+    while (!validPosition && attempts < 100) {
+      attempts++;
+      randomPos.set(
+        (Math.random() - 0.5) * 80,
+        (Math.random() - 0.5) * 35,
+        (Math.random() - 0.5) * 80
+      );
+
+      const distProbe = randomPos.distanceTo(spaceProbe.probeGroup.position);
+      const distCargo = cargoShip.getDockingBayWorldPosition ? randomPos.distanceTo(cargoShip.getDockingBayWorldPosition()) : 50;
+
+      if (distProbe < 15.0 || distCargo < 15.0) continue;
+
+      const overlapsSatellite = satellites.some(sat => sat.position.distanceTo(randomPos) < 10.0);
+      if (overlapsSatellite) continue;
+
+      validPosition = true;
+    }
+
+    createSatelliteMesh(randomPos);
+  }
+}
+
 function spawnAllRocks() {
   rocks.forEach(rock => scene.remove(rock));
   rocks.length = 0;
 
+  const MIN_DISTANCE_FROM_SATELLITE = 8.5;
+  const MIN_DISTANCE_FROM_PROBE = 12.0;
+
   for (let i = 0; i < TOTAL_ROCKS; i++) {
-    const randomPos = new THREE.Vector3(
-      (Math.random() - 0.5) * 70,
-      (Math.random() - 0.5) * 30,
-      (Math.random() - 0.5) * 70
-    );
-    if (randomPos.distanceTo(spaceProbe.probeGroup.position) < 10) randomPos.x += 15;
+    let validPosition = false;
+    let randomPos = new THREE.Vector3();
+    let attempts = 0;
+
+    while (!validPosition && attempts < 100) {
+      attempts++;
+      randomPos.set(
+        (Math.random() - 0.5) * 70,
+        (Math.random() - 0.5) * 30,
+        (Math.random() - 0.5) * 70
+      );
+
+      const distProbe = randomPos.distanceTo(spaceProbe.probeGroup.position);
+      const distCargo = cargoShip.getDockingBayWorldPosition ? randomPos.distanceTo(cargoShip.getDockingBayWorldPosition()) : 50;
+
+      if (distProbe < MIN_DISTANCE_FROM_PROBE || distCargo < 10.0) continue;
+
+      // Controllo distanza con i satelliti esistenti
+      const overlapsSatellite = satellites.some(sat => sat.position.distanceTo(randomPos) < MIN_DISTANCE_FROM_SATELLITE);
+      if (overlapsSatellite) continue;
+
+      // Controllo distanza tra cristalli
+      const overlapsRock = rocks.some(r => r.position.distanceTo(randomPos) < 5.0);
+      if (overlapsRock) continue;
+
+      validPosition = true;
+    }
+
     createPreciousRock(randomPos);
   }
 }
 
-spawnAllRocks();
+// Genera prima i satelliti e poi i cristalli per evitare sovrapposizioni
+function spawnAllEntities() {
+  spawnSatellites();
+  spawnAllRocks();
+}
+
+spawnAllEntities();
+
+function checkSatelliteCollisions() {
+  if (!isMissionStarted || isGameOver || (isVictory && !isFreeNavigationMode)) return;
+
+  const probePos = spaceProbe.probeGroup.position;
+  const SATELLITE_HIT_RADIUS = 2.4;
+
+  for (const sat of satellites) {
+    if (probePos.distanceTo(sat.position) < SATELLITE_HIT_RADIUS) {
+      energy = 0;
+      updateEnergyUI();
+      statusMsgEl.style.color = '#ff0033';
+      statusMsgEl.textContent = 'CRITICAL HULL COLLISION WITH SATELLITE DEBRIS!';
+      triggerGameOver();
+      break;
+    }
+  }
+}
 
 // 6. User Interface
 const gui = new UserInterface(lights, spaceProbe, cameraSettings, handleGrabDropAction);
@@ -379,7 +519,7 @@ function resetGame() {
     spaceProbe.toggleSolarPanels();
   }
 
-  spawnAllRocks();
+  spawnAllEntities();
   updateShipTexture();
 
   statusMsgEl.style.color = '#ffcc00';
@@ -555,6 +695,10 @@ function animate() {
   handleMovement(deltaTime);
   handleSolarRecharge(deltaTime);
   
+  if (satellites.length > 0) {
+    checkSatelliteCollisions();
+  }
+
   if (!cameraSettings.isFirstPerson) {
     controls.update();
   }
@@ -567,6 +711,11 @@ function animate() {
   rocks.forEach(rock => {
     rock.rotation.x += 0.5 * deltaTime;
     rock.rotation.y += 0.8 * deltaTime;
+  });
+
+  satellites.forEach(sat => {
+    sat.rotation.y += 0.3 * deltaTime;
+    sat.rotation.z += 0.15 * deltaTime;
   });
 
   if (starField && starField.starField) {

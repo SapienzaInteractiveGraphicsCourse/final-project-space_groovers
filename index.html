@@ -79,6 +79,22 @@
     }
 
     #solar-efficiency { font-size: 11px; color: #88ff88; margin-top: 4px; display: none; }
+    
+    /* Box del Timer nell'HUD */
+    #timer-box {
+      font-size: 12px;
+      font-weight: bold;
+      color: #ff8800;
+      margin-top: 8px;
+      display: none;
+    }
+
+    #timer-text {
+      color: #ffcc00;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
     #status-msg { font-size: 12px; color: #ffcc00; margin-top: 10px; }
 
     .lil-gui {
@@ -110,7 +126,7 @@
     .modal-card {
       background: rgba(16, 24, 48, 0.85); border: 1px solid #00ffff;
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); border-radius: 12px;
-      padding: 25px 35px; max-width: 620px; width: 90%; text-align: center;
+      padding: 22px 30px; max-width: 640px; width: 90%; text-align: center;
     }
 
     .modal-card h1 {
@@ -122,7 +138,7 @@
     .mission-briefing {
       text-align: left; background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 8px;
-      padding: 12px 18px; margin: 12px 0; font-size: 12px; line-height: 1.4;
+      padding: 12px 18px; margin: 10px 0; font-size: 12px; line-height: 1.4;
     }
 
     .mission-briefing h3 {
@@ -134,17 +150,46 @@
     .mission-briefing li { margin-bottom: 3px; }
     .warning-text { color: #ff4444; font-weight: bold; }
 
+    /* SEZIONE SELEZIONE MODALITÀ */
+    .mode-section {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      margin: 10px 0;
+    }
+
+    .mode-section h3 {
+      color: #00ffff;
+      font-size: 11px;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mode-btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .mode-btn-group button {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
     /* SEZIONE TEXTURE & COLORI CENTRATA */
     .texture-section {
-      margin: 15px 0;
+      margin: 10px 0;
       background: rgba(0, 0, 0, 0.3);
-      padding: 15px;
+      padding: 12px;
       border-radius: 8px;
       border: 1px solid rgba(0, 255, 255, 0.2);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .selector-group {
@@ -157,7 +202,7 @@
     .texture-section h3 {
       color: #00ffff;
       font-size: 11px;
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
       text-transform: uppercase;
       letter-spacing: 1px;
       text-align: center;
@@ -165,13 +210,13 @@
 
     .color-picker-grid {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
     }
 
     .texture-card {
-      width: 75px;
-      height: 40px;
+      width: 70px;
+      height: 36px;
       border-radius: 6px;
       border: 2px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
@@ -179,12 +224,12 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding: 4px;
+      padding: 3px;
       box-sizing: border-box;
     }
 
     .texture-card span {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: bold;
       color: #ffffff;
       text-shadow: 0 1px 3px rgba(0,0,0,0.9);
@@ -198,56 +243,53 @@
       box-shadow: 0 0 12px #00ffff;
     }
 
-    /* Stili cromatici dei rettangoli per i cristalli */
     .card-cyan { background: linear-gradient(135deg, #0055aa, #00ffff); }
     .card-red { background: linear-gradient(135deg, #aa0033, #ff3300); }
     .card-gold { background: linear-gradient(135deg, #aa7700, #ffcc00); }
 
-    /* Stili cromatici dei rettangoli per la navicella */
     .card-steel { background: linear-gradient(135deg, #555555, #aaaaaa); }
     .card-dark { background: linear-gradient(135deg, #111122, #333355); }
 
     .controls-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-      text-align: left; margin: 12px 0 18px 0; background: rgba(0, 0, 0, 0.4);
-      padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.15);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+      text-align: left; margin: 10px 0 14px 0; background: rgba(0, 0, 0, 0.4);
+      padding: 10px; border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.15);
     }
 
-    .control-item { font-size: 12px; }
+    .control-item { font-size: 11px; }
     .control-item span {
       color: #ffcc00; font-weight: bold; background: rgba(255, 204, 0, 0.1);
-      padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(255, 204, 0, 0.3);
+      padding: 1px 4px; border-radius: 4px; border: 1px solid rgba(255, 204, 0, 0.3);
     }
 
     .btn-group { display: flex; gap: 15px; justify-content: center; margin-top: 15px; }
 
     .btn-primary {
       background: linear-gradient(135deg, #0088ff, #00ffff); color: #020208;
-      border: none; padding: 10px 24px; font-size: 14px; font-weight: bold;
+      border: none; padding: 10px 24px; font-size: 13px; font-weight: bold;
       letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out;
     }
 
-    .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
+    .btn-primary:hover { transform: scale(1.04); box-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
 
     .btn-secondary {
       background: rgba(255, 255, 255, 0.1); color: #00ffff; border: 1px solid #00ffff;
-      padding: 10px 24px; font-size: 14px; font-weight: bold; letter-spacing: 1px;
+      padding: 10px 24px; font-size: 13px; font-weight: bold; letter-spacing: 1px;
       border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out;
     }
 
-    .btn-secondary:hover { transform: scale(1.05); background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); }
+    .btn-secondary:hover { transform: scale(1.04); background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); }
   </style>
 </head>
 <body>
 
   <div id="danger-overlay"></div>
 
+  <!-- In-Game HUD -->
   <div id="hud" class="glass-panel hidden">
     <h2>Cargo Recovery Status</h2>
     <div class="score-value"><span id="score">0</span> / <span id="total-rocks">6</span> DELIVERED</div>
-    <audio id="bg-music" loop preload="auto">
-      <source src="/background-music.mp3" type="audio/mpeg">
-    </audio>
+    
     <div class="energy-header">
       <span>POWER LEVEL</span>
       <span id="energy-text">100%</span>
@@ -256,9 +298,19 @@
       <div id="energy-bar"></div>
     </div>
     <div id="solar-efficiency">Solar Efficiency: 0%</div>
+
+    <!-- Timer Countdown per la modalità Hardcore -->
+    <div id="timer-box">TIME REMAINING: <span id="timer-text">02:00</span></div>
+
     <div id="status-msg">Fly near a crystal, extend arm [R] and press [G] to grab</div>
   </div>
 
+  <!-- Audio Player -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="/background-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Start Overlay Screen -->
   <div id="start-overlay" class="overlay-screen">
     <div class="modal-card">
       <h1>Deep Space Cargo Mission</h1>
@@ -272,13 +324,21 @@
         <ul>
           <li>Operating the probe continuously consumes battery power.</li>
           <li>Deploy your solar panels <span>[P]</span> facing directly toward the Sun to recharge energy.</li>
-          <li><span class="warning-text">CRITICAL WARNING:</span> If your power level reaches <strong>0%</strong>, the probe will shut down!</li>
+          <li><span class="warning-text">CRITICAL WARNING:</span> If power drops to <strong>0%</strong> or time runs out, the mission fails!</li>
         </ul>
       </div>
+
+      <!-- SELEZIONE MODALITÀ DI GIOCO -->
+      <div class="mode-section">
+        <h3>Select Mission Mode</h3>
+        <div class="mode-btn-group">
+          <button type="button" id="mode-beginner" class="btn-primary">BEGINNER (STANDARD)</button>
+          <button type="button" id="mode-hardcore" class="btn-secondary">TIME ATTACK </button>
+        </div>
+      </div>
       
-      <!-- SEZIONE RETTANGOLI SELEZIONE COLORI / TEXTURE (CENTRATA) -->
+      <!-- SEZIONE RETTANGOLI SELEZIONE COLORI / TEXTURE -->
       <div class="texture-section">
-        <!-- Selezione Cristalli -->
         <div class="selector-group">
           <h3>Crystal Theme</h3>
           <div class="color-picker-grid">
@@ -294,7 +354,6 @@
           </div>
         </div>
 
-        <!-- Selezione Navicella -->
         <div class="selector-group">
           <h3>Space Probe Hull</h3>
           <div class="color-picker-grid">
@@ -326,6 +385,7 @@
     </div>
   </div>
 
+  <!-- Victory Screen -->
   <div id="victory-overlay" class="overlay-screen hidden">
     <div class="modal-card" style="border-color: #00ff88; box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);">
       <h1 style="color: #00ff88;">MISSION ACCOMPLISHED</h1>
@@ -339,11 +399,12 @@
     </div>
   </div>
 
+  <!-- Game Over Screen -->
   <div id="gameover-overlay" class="overlay-screen hidden">
     <div class="modal-card" style="border-color: #ff3300; box-shadow: 0 0 25px rgba(255, 51, 0, 0.4);">
       <h1 style="color: #ff3300;">GAME OVER</h1>
       <p style="color: #ffaaaa; font-size: 14px; margin-bottom: 25px;">
-        The space probe ran out of power and is now drifting helplessly in deep space.
+        Oh no! The space probe ran into a problem, drifting helplessly in deep space...
       </p>
       <button id="restart-btn" class="btn-primary" style="background: linear-gradient(135deg, #ff3300, #ff8800); color: #ffffff;">
         RESTART
@@ -352,7 +413,10 @@
   </div>
 
   <script type="module">
+    // Flag e variabili globali di gioco
     window.isMissionStarted = false;
+    window.gameMode = 'beginner'; // 'beginner' | 'hardcore'
+    window.remainingTime = 180;   // 3 minutes
 
     window.updateEnergyUI = function(energy) {
       const energyBar = document.getElementById('energy-bar');
@@ -374,34 +438,71 @@
       const startOverlay = document.getElementById('start-overlay');
       const hud = document.getElementById('hud');
       const bgMusic = document.getElementById('bg-music');
+      const gameOverOverlay = document.getElementById('gameover-overlay');
+      const timerBox = document.getElementById('timer-box');
+      const timerText = document.getElementById('timer-text');
 
-      // Regola il volume della traccia (0.0 = muto, 1.0 = massimo)
+      const btnBeginner = document.getElementById('mode-beginner');
+      const btnHardcore = document.getElementById('mode-hardcore');
+
       if (bgMusic) bgMusic.volume = 0.4;
 
+      // Gestione selezione bottoni modalità
+      if (btnBeginner && btnHardcore) {
+        btnBeginner.addEventListener('click', () => {
+          window.gameMode = 'beginner';
+          btnBeginner.className = 'btn-primary';
+          btnHardcore.className = 'btn-secondary';
+        });
+
+        btnHardcore.addEventListener('click', () => {
+          window.gameMode = 'hardcore';
+          btnHardcore.className = 'btn-primary';
+          btnBeginner.className = 'btn-secondary';
+        });
+      }
+
+      // Avvio missione
       startBtn.addEventListener('click', () => {
         window.isMissionStarted = true;
 
-        // Avvia la musica di sottofondo
         if (bgMusic) {
-          bgMusic.play().catch(err => {
-            console.warn('Riproduzione audio bloccata dal browser:', err);
-          });
+          bgMusic.play().catch(err => console.warn('Audio bloccato dal browser:', err));
         }
 
         startOverlay.classList.add('hidden');
         hud.classList.remove('hidden');
         document.body.classList.add('lil-gui-visible');
+
+        // Countdown attivo solo in modalità Hardcore
+        if (window.gameMode === 'hardcore' && timerBox) {
+          timerBox.style.display = 'block';
+          const timerInterval = setInterval(() => {
+            if (!window.isMissionStarted) {
+              clearInterval(timerInterval);
+              return;
+            }
+
+            window.remainingTime--;
+            const mins = Math.floor(window.remainingTime / 60).toString().padStart(2, '0');
+            const secs = (window.remainingTime % 60).toString().padStart(2, '0');
+            if (timerText) timerText.textContent = `${mins}:${secs}`;
+
+            if (window.remainingTime <= 0) {
+              clearInterval(timerInterval);
+              window.isMissionStarted = false;
+              if (gameOverOverlay) gameOverOverlay.classList.remove('hidden');
+            }
+          }, 1000);
+        }
       });
 
-      // Riavvia la musica se si clicca RESTART da GameOver o Victory
+      // Gestione pulsanti di riavvio
       const restartBtns = [document.getElementById('restart-btn'), document.getElementById('victory-restart-btn')];
       restartBtns.forEach(btn => {
         if (btn) {
           btn.addEventListener('click', () => {
-            if (bgMusic) {
-              bgMusic.currentTime = 0;
-              bgMusic.play();
-            }
+            location.reload();
           });
         }
       });
