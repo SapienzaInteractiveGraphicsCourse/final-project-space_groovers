@@ -35,7 +35,92 @@ let isGameOver = false;
 let isVictory = false;
 let isFreeNavigationMode = false;
 
-// 1. Button Event Listeners
+// 1. Dynamic Themes Configuration
+const crystalTheme = {
+  color: 0x00ffff,
+  emissive: 0x0055aa
+};
+
+const shipTheme = {
+  color: 0xaaaaaa,
+  roughness: 0.3
+};
+
+// 2. Scene and Camera Setup
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x020208);
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+camera.position.set(0, 3, 10);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 2.5;
+controls.maxDistance = 100;
+
+const cameraSettings = { 
+  isFixed: false,
+  isFirstPerson: false 
+};
+
+// 3. Scene Elements
+const lights = new Lights(scene);
+const starField = new DataGalaxy(scene);
+const cargoShip = new CargoShip(scene);
+const spaceProbe = new SpaceProbe(scene);
+
+// Helper to update ship material/texture dynamically
+function updateShipTexture() {
+  spaceProbe.probeGroup.traverse((child) => {
+    if (child.isMesh && child.material) {
+      // Modifica il materiale primario della scocca della navicella
+      if (child.material.name === 'hullMaterial' || !child.material.emissiveMap) {
+        child.material.color.setHex(shipTheme.color);
+        child.material.roughness = shipTheme.roughness;
+        child.material.needsUpdate = true;
+      }
+    }
+  });
+}
+
+// Event Listeners - Crystal Texture Selection
+document.querySelectorAll('.crystal-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    document.querySelectorAll('.crystal-card').forEach(c => c.classList.remove('active'));
+    
+    const target = e.currentTarget;
+    target.classList.add('active');
+
+    crystalTheme.color = parseInt(target.getAttribute('data-color'));
+    crystalTheme.emissive = parseInt(target.getAttribute('data-emissive'));
+
+    if (!isMissionStarted) {
+      spawnAllRocks();
+    }
+  });
+});
+
+// Event Listeners - Ship Hull Texture Selection
+document.querySelectorAll('.ship-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    document.querySelectorAll('.ship-card').forEach(c => c.classList.remove('active'));
+    
+    const target = e.currentTarget;
+    target.classList.add('active');
+
+    shipTheme.color = parseInt(target.getAttribute('data-color'));
+    shipTheme.roughness = parseFloat(target.getAttribute('data-roughness'));
+
+    updateShipTexture();
+  });
+});
+
+// Button Event Listeners
 startBtn.addEventListener('click', () => {
   startOverlay.classList.add('hidden');
   document.getElementById('hud').classList.remove('hidden');
@@ -55,35 +140,6 @@ victoryContinueBtn.addEventListener('click', () => {
   victoryOverlay.style.display = 'none';
   isFreeNavigationMode = true;
 });
-
-// 2. Scene and Camera Setup
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x020208);
-
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-camera.position.set(0, 3, 10);
-
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-document.body.appendChild(renderer.domElement);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.minDistance = 2.5;
-controls.maxDistance = 100;
-
-// Configurazione Telecamera (con Prima Persona)
-const cameraSettings = { 
-  isFixed: false,
-  isFirstPerson: false 
-};
-
-// 3. Scene Elements
-const lights = new Lights(scene);
-const starField = new DataGalaxy(scene);
-const cargoShip = new CargoShip(scene);
-const spaceProbe = new SpaceProbe(scene);
 
 // 4. Energy Management System
 let energy = 100.0;
@@ -122,8 +178,8 @@ function createPreciousRock(pos) {
 
   const rockGeo = new THREE.DodecahedronGeometry(0.45, 1);
   const rockMat = new THREE.MeshStandardMaterial({
-    color: 0x00ffff,
-    emissive: 0x0055aa,
+    color: crystalTheme.color,
+    emissive: crystalTheme.emissive,
     emissiveIntensity: 0.6,
     roughness: 0.2,
     metalness: 0.8
@@ -134,7 +190,7 @@ function createPreciousRock(pos) {
 
   const glowGeo = new THREE.SphereGeometry(0.6, 12, 12);
   const glowMat = new THREE.MeshBasicMaterial({
-    color: 0x00ffff,
+    color: crystalTheme.color,
     transparent: true,
     opacity: 0.25,
     blending: THREE.AdditiveBlending
@@ -266,7 +322,6 @@ window.addEventListener('keydown', (e) => {
     isSolarPanelsDeployed = !isSolarPanelsDeployed;
     spaceProbe.toggleSolarPanels();
   }
-  // Toggle First Person Camera with [C]
   if (e.code === 'KeyC') {
     cameraSettings.isFirstPerson = !cameraSettings.isFirstPerson;
   }
@@ -280,13 +335,13 @@ const MAX_PROBE_DISTANCE = 100;
 
 function triggerGameOver() {
   isGameOver = true;
-  gameoverOverlay.classList.remove('hidden'); // Rimuove .hidden
+  gameoverOverlay.classList.remove('hidden');
   if (dangerOverlay) dangerOverlay.classList.remove('active');
 }
 
 function triggerVictory() {
   isVictory = true;
-  victoryOverlay.classList.remove('hidden'); // Rimuove .hidden
+  victoryOverlay.classList.remove('hidden');
   statusMsgEl.style.color = '#00ff88';
   statusMsgEl.textContent = 'MISSION ACCOMPLISHED! ALL CRYSTALS DELIVERED!';
   if (dangerOverlay) dangerOverlay.classList.remove('active');
@@ -298,7 +353,6 @@ function resetGame() {
   isFreeNavigationMode = false;
   isMissionStarted = false;
 
-  // Nasconde gli overlay aggiungendo di nuovo la classe .hidden
   gameoverOverlay.classList.add('hidden');
   victoryOverlay.classList.add('hidden');
   startOverlay.classList.remove('hidden');
@@ -326,6 +380,7 @@ function resetGame() {
   }
 
   spawnAllRocks();
+  updateShipTexture();
 
   statusMsgEl.style.color = '#ffcc00';
   statusMsgEl.textContent = 'Fly near a crystal, extend arm [R] and press [G] to grab';
@@ -341,7 +396,6 @@ function handleMovement(deltaTime) {
 
   const oldPosition = spaceProbe.probeGroup.position.clone();
 
-  // Rotations
   if (keys.ArrowLeft) spaceProbe.probeGroup.rotateY(turnSpeed);
   if (keys.ArrowRight) spaceProbe.probeGroup.rotateY(-turnSpeed);
 
@@ -379,7 +433,6 @@ function handleMovement(deltaTime) {
     }
   }
 
-  // Energy Consumption
   const isMovingKey = keys.KeyW || keys.KeyS || keys.KeyA || keys.KeyD ||
                       keys.ArrowLeft || keys.ArrowRight || keys.ArrowUp || keys.ArrowDown ||
                       keys.KeyQ || keys.KeyE;
@@ -394,21 +447,15 @@ function handleMovement(deltaTime) {
     triggerGameOver();
   }
 
-  // Camera Management (First Person vs Orbit Controls)
   if (cameraSettings.isFirstPerson) {
     controls.enabled = false;
-
-    // Allarga la visuale (grandangolo da cockpit)
     camera.fov = 85;
     camera.updateProjectionMatrix();
 
-    // Posizione rialzata sopra il braccio robotico
-    // y: 0.8 (più in alto), z: -0.2 (leggermente arretrato per vedere bene l'ambiente)
     const cockpitOffset = new THREE.Vector3(0, 0.8, -0.2);
     cockpitOffset.applyQuaternion(spaceProbe.probeGroup.quaternion);
     camera.position.copy(spaceProbe.probeGroup.position).add(cockpitOffset);
 
-    // Direzione dello sguardo verso l'avanti/basso
     const forwardTarget = new THREE.Vector3(0, -0.1, -10);
     forwardTarget.applyQuaternion(spaceProbe.probeGroup.quaternion);
     forwardTarget.add(spaceProbe.probeGroup.position);
@@ -417,7 +464,6 @@ function handleMovement(deltaTime) {
   } else {
     controls.enabled = true;
 
-    // Ripristina il FOV standard per la terza persona
     if (camera.fov !== 60) {
       camera.fov = 60;
       camera.updateProjectionMatrix();
@@ -490,7 +536,14 @@ function handleSolarRecharge(deltaTime) {
   }
 }
 
-// 10. Main Render Loop
+// 10. Window Resize Listener
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// 11. Main Render Loop
 const clock = new THREE.Clock();
 
 function animate() {

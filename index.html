@@ -20,23 +20,14 @@
       user-select: none;
     }
 
-    /* Helper Class for Hiding Elements */
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
-    /* Danger Red Vignette Overlay for Low Energy (<= 10%) */
     #danger-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 800;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 800;
       box-shadow: inset 0 0 80px rgba(255, 0, 0, 0.8);
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
+      opacity: 0; transition: opacity 0.3s ease-in-out;
     }
 
     #danger-overlay.active {
@@ -45,17 +36,10 @@
     }
 
     @keyframes pulse-danger {
-      0% {
-        box-shadow: inset 0 0 40px rgba(255, 0, 0, 0.4);
-        background: rgba(255, 0, 0, 0.05);
-      }
-      100% {
-        box-shadow: inset 0 0 120px rgba(255, 0, 0, 0.95);
-        background: rgba(255, 0, 0, 0.2);
-      }
+      0% { box-shadow: inset 0 0 40px rgba(255, 0, 0, 0.4); background: rgba(255, 0, 0, 0.05); }
+      100% { box-shadow: inset 0 0 120px rgba(255, 0, 0, 0.95); background: rgba(255, 0, 0, 0.2); }
     }
 
-    /* Shared Glassmorphism Theme Rules */
     .glass-panel {
       background: rgba(16, 24, 48, 0.85);
       border: 1px solid #00ffff;
@@ -64,74 +48,41 @@
       backdrop-filter: blur(8px);
     }
 
-    /* HUD In-Game Score & Energy (Top-Left) */
     #hud {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 100;
-      padding: 16px 22px;
-      min-width: 260px;
+      position: absolute; top: 20px; left: 20px; z-index: 100;
+      padding: 16px 22px; min-width: 260px;
     }
 
     #hud h2 {
-      margin: 0 0 6px 0;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #88ffff;
+      margin: 0 0 6px 0; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 1.5px; color: #88ffff;
     }
 
     #hud .score-value {
-      font-size: 20px;
-      font-weight: bold;
-      color: #00ffff;
-      margin-bottom: 12px;
+      font-size: 20px; font-weight: bold; color: #00ffff; margin-bottom: 12px;
     }
 
-    /* Energy Bar Styling */
     .energy-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: bold;
-      color: #ffcc00;
-      margin-bottom: 4px;
+      display: flex; justify-content: space-between;
+      font-size: 12px; font-weight: bold; color: #ffcc00; margin-bottom: 4px;
     }
 
     .energy-bar-container {
-      width: 100%;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 204, 0, 0.4);
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+      width: 100%; height: 12px; background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px; overflow: hidden;
+      border: 1px solid rgba(255, 204, 0, 0.4); box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
     }
 
     #energy-bar {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, #00ff88, #00ffff);
+      width: 100%; height: 100%; background: linear-gradient(90deg, #00ff88, #00ffff);
       transition: width 0.1s linear, background-color 0.3s ease;
     }
 
-    #solar-efficiency {
-      font-size: 11px;
-      color: #88ff88;
-      margin-top: 4px;
-      display: none;
-    }
+    #solar-efficiency { font-size: 11px; color: #88ff88; margin-top: 4px; display: none; }
+    #status-msg { font-size: 12px; color: #ffcc00; margin-top: 10px; }
 
-    #status-msg {
-      font-size: 12px;
-      color: #ffcc00;
-      margin-top: 10px;
-    }
-
-    /* lil-gui Custom Styling for Top-Right Controls */
     .lil-gui {
-      display: none !important; /* Hidden by default until mission starts */
+      display: none !important;
       --background-color: rgba(16, 24, 48, 0.85) !important;
       --text-color: #ffffff !important;
       --title-background-color: rgba(0, 255, 255, 0.15) !important;
@@ -142,193 +93,155 @@
       --string-color: #88ffff !important;
       --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
       --font-size: 12px !important;
-      border: 1px solid #00ffff !important;
-      border-radius: 10px !important;
+      border: 1px solid #00ffff !important; border-radius: 10px !important;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.25) !important;
-      backdrop-filter: blur(8px) !important;
-      overflow: hidden !important;
+      backdrop-filter: blur(8px) !important; overflow: hidden !important;
     }
 
-    /* Class added after Start Mission to reveal lil-gui */
-    .lil-gui-visible .lil-gui {
-      display: block !important;
-    }
+    .lil-gui-visible .lil-gui { display: block !important; }
 
-    .lil-gui .title {
-      color: #00ffff !important;
-      font-weight: bold !important;
-      text-transform: uppercase !important;
-      letter-spacing: 1px !important;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.3) !important;
-    }
-
-    .lil-gui .button {
-      background: linear-gradient(135deg, rgba(0, 136, 255, 0.4), rgba(0, 255, 255, 0.4)) !important;
-      border: 1px solid #00ffff !important;
-      border-radius: 4px !important;
-      color: #ffffff !important;
-      font-weight: bold !important;
-      transition: all 0.2s ease-in-out !important;
-    }
-
-    .lil-gui .button:hover {
-      background: linear-gradient(135deg, rgba(0, 136, 255, 0.8), rgba(0, 255, 255, 0.8)) !important;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6) !important;
-    }
-
-    /* Start, Game Over, and Victory Overlays */
     .overlay-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(2, 2, 12, 0.92);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
+      position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(2, 2, 12, 0.92); display: flex;
+      justify-content: center; align-items: center; z-index: 999;
       backdrop-filter: blur(8px);
     }
     
     .modal-card {
-      background: rgba(16, 24, 48, 0.85);
-      border: 1px solid #00ffff;
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 30px 40px;
-      max-width: 620px;
-      width: 90%;
-      text-align: center;
+      background: rgba(16, 24, 48, 0.85); border: 1px solid #00ffff;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); border-radius: 12px;
+      padding: 25px 35px; max-width: 620px; width: 90%; text-align: center;
     }
 
-    /* TITOLO CON NUOVO FONT ORBITRON */
     .modal-card h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 800;
-      color: #00ffff;
-      margin-top: 0;
-      font-size: 26px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      font-family: 'Orbitron', sans-serif; font-weight: 800; color: #00ffff;
+      margin-top: 0; font-size: 24px; letter-spacing: 2px;
+      text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
 
-    /* Instructions & Mission Rules Box */
     .mission-briefing {
-      text-align: left;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      border-radius: 8px;
-      padding: 15px 20px;
-      margin: 15px 0;
-      font-size: 13px;
-      line-height: 1.5;
+      text-align: left; background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 8px;
+      padding: 12px 18px; margin: 12px 0; font-size: 12px; line-height: 1.4;
     }
 
     .mission-briefing h3 {
-      color: #00ffff;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 10px 0 5px 0;
+      color: #00ffff; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 1px; margin: 8px 0 4px 0;
     }
+    .mission-briefing h3:first-child { margin-top: 0; }
+    .mission-briefing ul { margin: 0; padding-left: 18px; color: #cccccc; }
+    .mission-briefing li { margin-bottom: 3px; }
+    .warning-text { color: #ff4444; font-weight: bold; }
 
-    .mission-briefing h3:first-child {
-      margin-top: 0;
-    }
-
-    .mission-briefing ul {
-      margin: 0;
-      padding-left: 18px;
-      color: #cccccc;
-    }
-
-    .mission-briefing li {
-      margin-bottom: 4px;
-    }
-
-    .warning-text {
-      color: #ff4444;
-      font-weight: bold;
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      text-align: left;
-      margin: 15px 0 20px 0;
-      background: rgba(0, 0, 0, 0.4);
+    /* SEZIONE TEXTURE & COLORI CENTRATA */
+    .texture-section {
+      margin: 15px 0;
+      background: rgba(0, 0, 0, 0.3);
       padding: 15px;
       border-radius: 8px;
-      border: 1px solid rgba(0, 255, 255, 0.15);
-    }
-
-    .control-item {
-      font-size: 13px;
-    }
-
-    .control-item span {
-      color: #ffcc00;
-      font-weight: bold;
-      background: rgba(255, 204, 0, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 204, 0, 0.3);
-    }
-
-    .btn-group {
+      border: 1px solid rgba(0, 255, 255, 0.2);
       display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
+
+    .selector-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .texture-section h3 {
+      color: #00ffff;
+      font-size: 11px;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .color-picker-grid {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .texture-card {
+      width: 75px;
+      height: 40px;
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+
+    .texture-card span {
+      font-size: 10px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+      text-transform: uppercase;
+    }
+
+    .texture-card:hover { transform: scale(1.05); }
+
+    .texture-card.active {
+      border-color: #00ffff;
+      box-shadow: 0 0 12px #00ffff;
+    }
+
+    /* Stili cromatici dei rettangoli per i cristalli */
+    .card-cyan { background: linear-gradient(135deg, #0055aa, #00ffff); }
+    .card-red { background: linear-gradient(135deg, #aa0033, #ff3300); }
+    .card-gold { background: linear-gradient(135deg, #aa7700, #ffcc00); }
+
+    /* Stili cromatici dei rettangoli per la navicella */
+    .card-steel { background: linear-gradient(135deg, #555555, #aaaaaa); }
+    .card-dark { background: linear-gradient(135deg, #111122, #333355); }
+
+    .controls-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      text-align: left; margin: 12px 0 18px 0; background: rgba(0, 0, 0, 0.4);
+      padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.15);
+    }
+
+    .control-item { font-size: 12px; }
+    .control-item span {
+      color: #ffcc00; font-weight: bold; background: rgba(255, 204, 0, 0.1);
+      padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(255, 204, 0, 0.3);
+    }
+
+    .btn-group { display: flex; gap: 15px; justify-content: center; margin-top: 15px; }
 
     .btn-primary {
-      background: linear-gradient(135deg, #0088ff, #00ffff);
-      color: #020208;
-      border: none;
-      padding: 12px 28px;
-      font-size: 15px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      background: linear-gradient(135deg, #0088ff, #00ffff); color: #020208;
+      border: none; padding: 10px 24px; font-size: 14px; font-weight: bold;
+      letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out;
     }
 
-    .btn-primary:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    }
+    .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #00ffff;
-      border: 1px solid #00ffff;
-      padding: 12px 28px;
-      font-size: 15px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      background: rgba(255, 255, 255, 0.1); color: #00ffff; border: 1px solid #00ffff;
+      padding: 10px 24px; font-size: 14px; font-weight: bold; letter-spacing: 1px;
+      border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out;
     }
 
-    .btn-secondary:hover {
-      transform: scale(1.05);
-      background: rgba(0, 255, 255, 0.2);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-    }
+    .btn-secondary:hover { transform: scale(1.05); background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); }
   </style>
 </head>
 <body>
 
-  <!-- Low Energy Red Pulsing Warning Overlay -->
   <div id="danger-overlay"></div>
 
-  <!-- In-Game HUD (Initially Hidden) -->
   <div id="hud" class="glass-panel hidden">
     <h2>Cargo Recovery Status</h2>
     <div class="score-value"><span id="score">0</span> / <span id="total-rocks">6</span> DELIVERED</div>
@@ -343,31 +256,61 @@
       <div id="energy-bar"></div>
     </div>
     <div id="solar-efficiency">Solar Efficiency: 0%</div>
-
     <div id="status-msg">Fly near a crystal, extend arm [R] and press [G] to grab</div>
   </div>
 
-  <!-- Start Screen Overlay -->
   <div id="start-overlay" class="overlay-screen">
     <div class="modal-card">
       <h1>Deep Space Cargo Mission</h1>
       
-      <!-- Objective & Rules Briefing -->
       <div class="mission-briefing">
         <h3>Primary Objective</h3>
         <ul>
           <li>Recover all floating energy crystals and deliver them safely to the mothership cargo bay.</li>
         </ul>
-
         <h3>Mission Rules & Power System</h3>
         <ul>
           <li>Operating the probe continuously consumes battery power.</li>
           <li>Deploy your solar panels <span>[P]</span> facing directly toward the Sun to recharge energy.</li>
-          <li><span class="warning-text">CRITICAL WARNING:</span> If your power level reaches <strong>0%</strong>, the probe will shut down and the mission will end in <strong>GAME OVER</strong>!</li>
+          <li><span class="warning-text">CRITICAL WARNING:</span> If your power level reaches <strong>0%</strong>, the probe will shut down!</li>
         </ul>
       </div>
       
-      <!-- Controls Layout -->
+      <!-- SEZIONE RETTANGOLI SELEZIONE COLORI / TEXTURE (CENTRATA) -->
+      <div class="texture-section">
+        <!-- Selezione Cristalli -->
+        <div class="selector-group">
+          <h3>Crystal Theme</h3>
+          <div class="color-picker-grid">
+            <div class="texture-card crystal-card card-cyan active" data-color="0x00ffff" data-emissive="0x0055aa">
+              <span>Cyan</span>
+            </div>
+            <div class="texture-card crystal-card card-red" data-color="0xff3300" data-emissive="0xaa0022">
+              <span>Red</span>
+            </div>
+            <div class="texture-card crystal-card card-gold" data-color="0xffcc00" data-emissive="0xaa7700">
+              <span>Gold</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selezione Navicella -->
+        <div class="selector-group">
+          <h3>Space Probe Hull</h3>
+          <div class="color-picker-grid">
+            <div class="texture-card ship-card card-steel active" data-color="0xaaaaaa" data-roughness="0.3">
+              <span>Steel</span>
+            </div>
+            <div class="texture-card ship-card card-gold" data-color="0xffaa00" data-roughness="0.2">
+              <span>Gold</span>
+            </div>
+            <div class="texture-card ship-card card-dark" data-color="0x222233" data-roughness="0.5">
+              <span>Dark</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="controls-grid">
         <div class="control-item"><span>W / S</span> Thrust Forward / Back</div>
         <div class="control-item"><span>Left / Right</span> Yaw Left / Right</div>
@@ -383,14 +326,12 @@
     </div>
   </div>
 
-  <!-- Victory Screen Overlay -->
   <div id="victory-overlay" class="overlay-screen hidden">
     <div class="modal-card" style="border-color: #00ff88; box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);">
       <h1 style="color: #00ff88;">MISSION ACCOMPLISHED</h1>
-      <p style="color: #e0ffe0; font-size: 15px; margin-bottom: 20px;">
-        All energy crystals have been successfully recovered and delivered to the mothership cargo bay! Excellent work, pilot.
+      <p style="color: #e0ffe0; font-size: 14px; margin-bottom: 20px;">
+        All energy crystals have been successfully recovered and delivered to the mothership cargo bay!
       </p>
-
       <div class="btn-group">
         <button id="victory-restart-btn" class="btn-primary">RESTART</button>
         <button id="victory-continue-btn" class="btn-secondary">FREE NAVIGATION</button>
@@ -398,11 +339,10 @@
     </div>
   </div>
 
-  <!-- Game Over Screen Overlay -->
   <div id="gameover-overlay" class="overlay-screen hidden">
     <div class="modal-card" style="border-color: #ff3300; box-shadow: 0 0 25px rgba(255, 51, 0, 0.4);">
       <h1 style="color: #ff3300;">GAME OVER</h1>
-      <p style="color: #ffaaaa; font-size: 15px; margin-bottom: 25px;">
+      <p style="color: #ffaaaa; font-size: 14px; margin-bottom: 25px;">
         The space probe ran out of power and is now drifting helplessly in deep space.
       </p>
       <button id="restart-btn" class="btn-primary" style="background: linear-gradient(135deg, #ff3300, #ff8800); color: #ffffff;">
@@ -411,62 +351,6 @@
     </div>
   </div>
 
-<script type="module">
-    window.isMissionStarted = false;
-
-    window.updateEnergyUI = function(energy) {
-      const energyBar = document.getElementById('energy-bar');
-      const energyText = document.getElementById('energy-text');
-      const dangerOverlay = document.getElementById('danger-overlay');
-
-      if (energyBar) energyBar.style.width = Math.max(0, Math.min(100, energy)) + '%';
-      if (energyText) energyText.textContent = Math.round(energy) + '%';
-
-      if (energy <= 10 && energy > 0 && window.isMissionStarted) {
-        dangerOverlay.classList.add('active');
-      } else {
-        dangerOverlay.classList.remove('active');
-      }
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const startBtn = document.getElementById('start-btn');
-      const startOverlay = document.getElementById('start-overlay');
-      const hud = document.getElementById('hud');
-      const bgMusic = document.getElementById('bg-music');
-
-      // Regola il volume della traccia (0.0 = muto, 1.0 = massimo)
-      if (bgMusic) bgMusic.volume = 0.4;
-
-      startBtn.addEventListener('click', () => {
-        window.isMissionStarted = true;
-
-        // Avvia la musica di sottofondo
-        if (bgMusic) {
-          bgMusic.play().catch(err => {
-            console.warn('Riproduzione audio bloccata dal browser:', err);
-          });
-        }
-
-        startOverlay.classList.add('hidden');
-        hud.classList.remove('hidden');
-        document.body.classList.add('lil-gui-visible');
-      });
-
-      // Riavvia la musica se si clicca RESTART da GameOver o Victory
-      const restartBtns = [document.getElementById('restart-btn'), document.getElementById('victory-restart-btn')];
-      restartBtns.forEach(btn => {
-        if (btn) {
-          btn.addEventListener('click', () => {
-            if (bgMusic) {
-              bgMusic.currentTime = 0;
-              bgMusic.play();
-            }
-          });
-        }
-      });
-    });
-  </script>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

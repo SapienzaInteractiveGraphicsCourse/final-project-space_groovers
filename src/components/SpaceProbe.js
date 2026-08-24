@@ -7,6 +7,9 @@ export class SpaceProbe {
     this.probeGroup = new THREE.Group();
     this.boundingBox = new THREE.Box3();
 
+    // Riferimento al mesh per il cambio skin dinamico
+    this.bodyMesh = null;
+
     this.leftArmGroup = null;
     this.rightArmGroup = null;
     
@@ -79,9 +82,9 @@ export class SpaceProbe {
 
     // 1. CORPO CENTRALE
     const bodyGeometry = new THREE.CylinderGeometry(1, 1, 2.2, 16);
-    const bodyMesh = new THREE.Mesh(bodyGeometry, goldFoilMaterial);
-    bodyMesh.rotation.x = Math.PI / 2;
-    this.probeGroup.add(bodyMesh);
+    this.bodyMesh = new THREE.Mesh(bodyGeometry, goldFoilMaterial);
+    this.bodyMesh.rotation.x = Math.PI / 2;
+    this.probeGroup.add(this.bodyMesh);
 
     const ringGeo = new THREE.TorusGeometry(1.02, 0.04, 8, 32);
     const ring1 = new THREE.Mesh(ringGeo, metalMaterial);
@@ -210,6 +213,32 @@ export class SpaceProbe {
 
     this.particleSystem = new THREE.Points(particleGeo, particleMat);
     this.scene.add(this.particleSystem);
+  }
+
+  // Metodo aggiunto per cambiare dinamicamente la skin
+  applySkin(skinKey) {
+    if (!this.bodyMesh) return;
+
+    const mat = this.bodyMesh.material;
+    switch (skinKey) {
+      case 'stealth':
+        mat.color.setHex(0x1a1a1a);
+        mat.metalness = 0.95;
+        mat.roughness = 0.15;
+        break;
+      case 'titanium':
+        mat.color.setHex(0x2b4c7e);
+        mat.metalness = 0.7;
+        mat.roughness = 0.3;
+        break;
+      case 'gold':
+      default:
+        mat.color.setHex(0xd4af37);
+        mat.metalness = 0.85;
+        mat.roughness = 0.2;
+        break;
+    }
+    mat.needsUpdate = true;
   }
 
   // Restituisce la posizione nello spazio 3D della pinza
