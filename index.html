@@ -190,7 +190,7 @@
       z-index: 999;
       backdrop-filter: blur(8px);
     }
-
+    
     .modal-card {
       background: rgba(16, 24, 48, 0.85);
       border: 1px solid #00ffff;
@@ -332,7 +332,9 @@
   <div id="hud" class="glass-panel hidden">
     <h2>Cargo Recovery Status</h2>
     <div class="score-value"><span id="score">0</span> / <span id="total-rocks">6</span> DELIVERED</div>
-    
+    <audio id="bg-music" loop preload="auto">
+      <source src="/background-music.mp3" type="audio/mpeg">
+    </audio>
     <div class="energy-header">
       <span>POWER LEVEL</span>
       <span id="energy-text">100%</span>
@@ -409,11 +411,9 @@
     </div>
   </div>
 
-  <script type="module">
-    // Global flag to prevent energy drain before pressing Start Mission
+<script type="module">
     window.isMissionStarted = false;
 
-    // Call this helper function inside your main logic whenever energy level updates
     window.updateEnergyUI = function(energy) {
       const energyBar = document.getElementById('energy-bar');
       const energyText = document.getElementById('energy-text');
@@ -422,7 +422,6 @@
       if (energyBar) energyBar.style.width = Math.max(0, Math.min(100, energy)) + '%';
       if (energyText) energyText.textContent = Math.round(energy) + '%';
 
-      // Activate red vignette flash warning if energy <= 10
       if (energy <= 10 && energy > 0 && window.isMissionStarted) {
         dangerOverlay.classList.add('active');
       } else {
@@ -434,19 +433,37 @@
       const startBtn = document.getElementById('start-btn');
       const startOverlay = document.getElementById('start-overlay');
       const hud = document.getElementById('hud');
+      const bgMusic = document.getElementById('bg-music');
+
+      // Regola il volume della traccia (0.0 = muto, 1.0 = massimo)
+      if (bgMusic) bgMusic.volume = 0.4;
 
       startBtn.addEventListener('click', () => {
-        // Enable energy depletion logic
         window.isMissionStarted = true;
 
-        // Hide start screen
-        startOverlay.classList.add('hidden');
-        
-        // Show left HUD panel
-        hud.classList.remove('hidden');
+        // Avvia la musica di sottofondo
+        if (bgMusic) {
+          bgMusic.play().catch(err => {
+            console.warn('Riproduzione audio bloccata dal browser:', err);
+          });
+        }
 
-        // Allow top-right lil-gui controls panel to become visible
+        startOverlay.classList.add('hidden');
+        hud.classList.remove('hidden');
         document.body.classList.add('lil-gui-visible');
+      });
+
+      // Riavvia la musica se si clicca RESTART da GameOver o Victory
+      const restartBtns = [document.getElementById('restart-btn'), document.getElementById('victory-restart-btn')];
+      restartBtns.forEach(btn => {
+        if (btn) {
+          btn.addEventListener('click', () => {
+            if (bgMusic) {
+              bgMusic.currentTime = 0;
+              bgMusic.play();
+            }
+          });
+        }
       });
     });
   </script>
