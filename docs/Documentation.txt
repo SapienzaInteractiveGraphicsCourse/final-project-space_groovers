@@ -1,0 +1,56 @@
+1. Titolo del Progetto e Informazioni Generali
+Titolo del Progetto: Space Probe Simulation
+Componenti del Gruppo: [Nome Cognome, Matricola]  
+Repository GitHub: [Link alla repo di GitHub Classroom]  
+Link GitHub Pages: [Link alla demo live eseguibile]  
+
+2. Introduzione e Ambiente di Sviluppo (Environment)
+Descrizione del Tema: Presentazione sintetica dell'applicazione (sonda spaziale con componenti snodati, esplorazione interattiva e controllo luci).  
+Tecnologie Utilizzate:WebGL & Three.js: Libreria grafica principale per la resa 3D.  
+Vite: Build tool e dev server locale per la gestione dei moduli ES6.HTML5 / JavaScript (ES6+).
+
+3. Librerie, Strumenti e Risorse Esterne (Libraries & Tools)
+Descrizione dettagliata di ciò che è stato integrato nel progetto ma non sviluppato da zero:  
+Librerie terze:three (v0.1x): Rendering 3D.@tweenjs/tween.js: Gestione dell'interpolazione fluida delle animazioni procedurali.  
+lil-gui: Creazione del pannello GUI di controllo per l'utente.  
+three/examples/jsm/controls/OrbitControls.js: Gestione della telecamera.
+Risorse grafiche (Asset):Texture personalizzate applicate alla sonda (probe_color.jpg, probe_normal.jpg, probe_specular.jpg).  
+Nota: Specifica che nessuna animazione è stata importata esternamente e che tutti i movimenti sono stati programmati in JavaScript.  
+
+4. Aspetti Tecnici (Technical Presentation)
+A. Modello Gerarchico (Hierarchical Model)
+Spiegazione della struttura ad albero del grafo di scena per la sonda:  Nodo Radice 
+(Parent): probeGroup (posizionamento globale nello spazio).
+Corpo Centrale: bodyMesh (Cilindro centrale ancorato alla radice).
+Componenti Figli (Children):Antenna: antennaMesh ancorata alla parte superiore del corpo.
+Bracci Solari: Gruppi intermedi (leftArmGroup, rightArmGroup) posizionati sui fianchi del corpo per impostare i punti di pivot/cerniera.
+Pannelli Solari: leftPanelMesh e rightPanelMesh (BoxGeometry) ancorati come figli dei rispettivi bracci.
+B. Luci e Materiali (Lights & Textures)
+Materiali PBR: Utilizzo di MeshStandardMaterial sul corpo della sonda combinando mappa del colore (diffuse), normal map per il rilievo superficiale e roughness map per la riflessione speculare.  
+Illuminazione:
+AmbientLight: Luce ambientale di riempimento.
+DirectionalLight: Luce principale ("Sole") con direzione e colore configurabili dall'utente.  
+
+C. Sistema di Animazione (Animations)Animazioni via Codice: Uso di TWEEN.js per gestire l'apertura e la chiusura dei pannelli solari (toggleSolarPanels) tramite funzioni di Easing (Back.Out).  
+Animazione Frame-by-Frame: Calcolo del delta temporale (clock.getDelta()) all'interno del loop animate() per garantire una rotazione uniforme dell'antenna e della sonda indipendentemente dal frame rate.  
+
+5. Manuale Utente e Interazione (User Manual)
+Descrizione di come l'utente può interagire con la scena:  
+Navigazione Camera (OrbitControls):Tasto Sinistro + Trascinamento: Rotazione della vista attorno alla sonda.  
+Scorrimento Rotella / Pinch: Zoom In / Zoom Out.  
+Tasto Destro + Trascinamento: Pan della camera.
+Pannello Interattivo (lil-gui):Sezione Illuminazione: Modifica dell'intensità, della posizione X/Y/Z e del colore della luce del sole.  
+Sezione Sonda Spaziale:Pulsante "Apri/Chiudi Pannelli" per azionare l'animazione dei bracci solari.  
+Slider "Rotazione Sonda Y" per ruotare manualmente il corpo centrale.
+Pulsante "Orienta Antenna" per animare l'inclinazione del piatto dell'antenna.  
+
+6. Guida all'Installazione e Deployment
+Istruzioni per eseguire e verificare il progetto:Clonare la repository.
+Eseguire npm install per installare le dipendenze.
+Avviare con npm run dev per la modalità sviluppatore.
+Eseguire npm run build per generare la build statica distribuibile su GitHub Pages.  
+
+
+
+
+
