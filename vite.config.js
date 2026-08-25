@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Aggiunto per GitHub Pages (deve corrispondere al nome del repository tra due slash)
+  // For github action
   base: '/final-project-space_groovers/',
   
   root: './',
@@ -10,6 +10,6 @@ export default defineConfig({
     outDir: 'dist',
   },
   server: {
-    open: true // Apre automaticamente la pagina nel browser all'avvio
+    open: true // open the browser page
   }
 });

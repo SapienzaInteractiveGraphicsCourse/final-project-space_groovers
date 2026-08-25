@@ -6,17 +6,14 @@ export class CargoShip {
     this.mesh = new THREE.Group();
     this.mesh.position.copy(position);
 
-    // Raggio esteso per un rilascio agevole dei cristalli (zona docking)
     this.dockingZoneRadius = 12.0;
 
-    // Bounding sphere per le collisioni con la sonda
     this.boundingSphere = new THREE.Sphere(this.mesh.position, 6.5);
 
     this._buildCargoShip();
     this.scene.add(this.mesh);
   }
 
-  // Restituisce la posizione precisa del portellone/baia di carico
   getDockingBayWorldPosition() {
     const bayLocalPos = new THREE.Vector3(0, 0, -6.1);
     return this.mesh.localToWorld(bayLocalPos);
@@ -48,25 +45,22 @@ export class CargoShip {
       emissiveIntensity: 0.9
     });
 
-    // Scafo Principale
     const hullGeo = new THREE.BoxGeometry(6, 4, 12);
     const hullMesh = new THREE.Mesh(hullGeo, metalMat);
     this.mesh.add(hullMesh);
 
-    // Baia di Carico (Docking Ring)
+    // Docking Ring
     const bayRingGeo = new THREE.TorusGeometry(2.5, 0.25, 16, 32);
     const bayRing = new THREE.Mesh(bayRingGeo, glowDockMat);
     bayRing.position.set(0, 0, -6.1);
     this.mesh.add(bayRing);
 
-    // Interno Baia
     const bayInteriorGeo = new THREE.CylinderGeometry(2.3, 2.3, 3, 16);
     const bayInterior = new THREE.Mesh(bayInteriorGeo, darkMetalMat);
     bayInterior.rotation.x = Math.PI / 2;
     bayInterior.position.set(0, 0, -4.6);
     this.mesh.add(bayInterior);
 
-    // Moduli Laterali
     const podGeo = new THREE.CylinderGeometry(1.5, 1.5, 8, 16);
     const leftPod = new THREE.Mesh(podGeo, darkMetalMat);
     leftPod.rotation.x = Math.PI / 2;
@@ -78,7 +72,7 @@ export class CargoShip {
 
     this.mesh.add(leftPod, rightPod);
 
-    // Propulsori
+    
     const engineGeo = new THREE.CylinderGeometry(1.0, 1.2, 2, 16);
     const engine1 = new THREE.Mesh(engineGeo, metalMat);
     engine1.rotation.x = Math.PI / 2;
