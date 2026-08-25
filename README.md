@@ -4,6 +4,8 @@ A 3D space simulation and precision recovery game developed with Three.js and Vi
 
 🎮 **[Play the game directly here!](https://sapienzainteractivegraphicscourse.github.io/final-project-space_groovers/)**
 
+LINK DEMO: https://sapienzainteractivegraphicscourse.github.io/final-project-space_groovers/
+
 ---
 
 ## Features & Highlights
