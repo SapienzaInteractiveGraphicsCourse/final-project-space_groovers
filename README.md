@@ -12,7 +12,7 @@ LINK DEMO: https://sapienzainteractivegraphicscourse.github.io/final-project-spa
 
 ### Game Modes
 * **Testing the Probe (Standard):** Free exploration with standard battery drain, unlimited time, and clear flight corridors.
-* **Time Attack:** 3-minute mission countdown with static orbital satellite debris functioning as destructive hazards.
+* **Time Attack:** 2-minute mission countdown with static orbital satellite debris functioning as destructive hazards.
 * **Spinning out of Space:** Hardcore mode featuring 8 actively orbiting satellites, floating micro-asteroid fields, a 90-second base timer, and a +20s Time Bonus per delivered crystal.
 
 ---
