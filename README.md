@@ -51,8 +51,8 @@ If you want to run the game locally, follow these steps:
 
 1. Clone the repository and navigate into the project directory:
    ```bash
-   git clone [https://github.com/samueleCostantinopoli/IG-Project.git](https://github.com/samueleCostantinopoli/IG-Project.git)
-   cd IG-Project
+   git clone [https://github.com/SapienzaInteractiveGraphicsCourse/final-project-space_groovers]
+   cd final-project-space_groovers
 
 2. Install all required dependencies:
     ```bash
