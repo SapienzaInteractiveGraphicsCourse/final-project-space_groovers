@@ -490,6 +490,11 @@
             const mins = Math.floor(Math.max(0, window.remainingTime) / 60).toString().padStart(2, '0');
             const secs = (Math.max(0, window.remainingTime) % 60).toString().padStart(2, '0');
             if (timerText) timerText.textContent = `${mins}:${secs}`;
+            if (window.remainingTime <= 20 && window.remainingTime > 0 && bgMusic) {
+              bgMusic.playbackRate = 1.25; // Velocizza la musica
+            } else if (window.remainingTime > 20 && bgMusic) {
+              bgMusic.playbackRate = 1.0;  // Torna a velocità normale se recuperi tempo coi bonus
+            }
 
             if (window.remainingTime <= 0) {
               clearInterval(timerInterval);

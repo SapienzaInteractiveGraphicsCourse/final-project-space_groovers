@@ -34,7 +34,13 @@ let isSolarPanelsDeployed = false;
 let isGameOver = false;
 let isVictory = false;
 let isFreeNavigationMode = false;
+// Variabile per l'intensità del tremolio
+let shakeIntensity = 0.0;
 
+// Funzione globale per innescare il tremolio
+function triggerCameraShake(intensity = 0.4) {
+  shakeIntensity = intensity;
+}
 // 1. Dynamic Themes Configuration
 const crystalTheme = {
   color: 0x00ffff,
@@ -339,6 +345,7 @@ function checkHazardCollisions() {
   // Collisioni con satelliti
   for (const sat of satellites) {
     if (probePos.distanceTo(sat.position) < 2.4) {
+      triggerCameraShake(2.0); // Forte scossone all'impatto distruttivo
       energy = 0;
       updateEnergyUI();
       statusMsgEl.style.color = '#ff0033';
@@ -351,6 +358,7 @@ function checkHazardCollisions() {
   // Collisioni con micro-asteroidi
   for (const ast of asteroids) {
     if (probePos.distanceTo(ast.position) < 1.6) {
+      triggerCameraShake(1.2); // Scossone medio all'impatto con detriti
       energy = Math.max(0, energy - 20);
       updateEnergyUI();
       statusMsgEl.style.color = '#ff4400';
@@ -726,7 +734,27 @@ function animate() {
   if (starField && starField.starField) {
     starField.starField.position.copy(camera.position);
   }
+  // --- CAMERA & TARGET SHAKE UPDATE ---
+  if (shakeIntensity > 0) {
+    const shakeOffsetX = (Math.random() - 0.5) * shakeIntensity;
+    const shakeOffsetY = (Math.random() - 0.5) * shakeIntensity;
+    const shakeOffsetZ = (Math.random() - 0.5) * shakeIntensity;
 
+    camera.position.x += shakeOffsetX;
+    camera.position.y += shakeOffsetY;
+    camera.position.z += shakeOffsetZ;
+
+    // Scuote anche il punto di mira per rendere il colpo visibile
+    if (!cameraSettings.isFirstPerson) {
+      controls.target.x += shakeOffsetX * 0.5;
+      controls.target.y += shakeOffsetY * 0.5;
+      controls.target.z += shakeOffsetZ * 0.5;
+    }
+
+    // Decadimento rapido ma percepibile
+    shakeIntensity = Math.max(0, shakeIntensity - deltaTime * 3.0);
+  }
+  // ------------------------------------
   renderer.render(scene, camera);
 }
 
