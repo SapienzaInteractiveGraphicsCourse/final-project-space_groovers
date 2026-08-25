@@ -52,7 +52,7 @@ const shipTheme = {
 };
 
 // Scene and Camera Setup
-//const scene = new THREE.Scene();
+const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x020208);
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
