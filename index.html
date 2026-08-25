@@ -80,7 +80,6 @@
 
     #solar-efficiency { font-size: 11px; color: #88ff88; margin-top: 4px; display: none; }
     
-    /* Box del Timer nell'HUD */
     #timer-box {
       font-size: 12px;
       font-weight: bold;
@@ -93,6 +92,15 @@
       color: #ffcc00;
       font-size: 15px;
       letter-spacing: 1px;
+    }
+
+    #time-bonus-popup {
+      font-size: 12px;
+      color: #00ff88;
+      font-weight: bold;
+      margin-left: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     #status-msg { font-size: 12px; color: #ffcc00; margin-top: 10px; }
@@ -126,7 +134,7 @@
     .modal-card {
       background: rgba(16, 24, 48, 0.85); border: 1px solid #00ffff;
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); border-radius: 12px;
-      padding: 22px 30px; max-width: 640px; width: 90%; text-align: center;
+      padding: 22px 30px; max-width: 680px; width: 90%; text-align: center;
     }
 
     .modal-card h1 {
@@ -150,7 +158,7 @@
     .mission-briefing li { margin-bottom: 3px; }
     .warning-text { color: #ff4444; font-weight: bold; }
 
-    /* SEZIONE SELEZIONE MODALITÀ */
+    /* SELEZIONE MODALITÀ */
     .mode-section {
       background: rgba(0, 0, 0, 0.3);
       padding: 12px;
@@ -169,27 +177,26 @@
 
     .mode-btn-group {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       justify-content: center;
     }
 
     .mode-btn-group button {
       flex: 1;
-      padding: 8px 12px;
-      font-size: 12px;
+      padding: 8px 8px;
+      font-size: 11px;
     }
 
-    /* SEZIONE TEXTURE & COLORI CENTRATA */
     .texture-section {
       margin: 10px 0;
       background: rgba(0, 0, 0, 0.3);
-      padding: 12px;
+      padding: 10px;
       border-radius: 8px;
       border: 1px solid rgba(0, 255, 255, 0.2);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .selector-group {
@@ -216,7 +223,7 @@
 
     .texture-card {
       width: 70px;
-      height: 36px;
+      height: 34px;
       border-radius: 6px;
       border: 2px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
@@ -299,8 +306,11 @@
     </div>
     <div id="solar-efficiency">Solar Efficiency: 0%</div>
 
-    <!-- Timer Countdown per la modalità Hardcore -->
-    <div id="timer-box">TIME REMAINING: <span id="timer-text">02:00</span></div>
+    <!-- Timer Countdown e Bonus -->
+    <div id="timer-box">
+      TIME: <span id="timer-text">02:00</span>
+      <span id="time-bonus-popup">+20s</span>
+    </div>
 
     <div id="status-msg">Fly near a crystal, extend arm [R] and press [G] to grab</div>
   </div>
@@ -318,54 +328,42 @@
       <div class="mission-briefing">
         <h3>Primary Objective</h3>
         <ul>
-          <li>Recover all floating energy crystals and deliver them safely to the mothership cargo bay.</li>
+          <li>Recover all energy crystals and deliver them safely to the mothership cargo bay.</li>
         </ul>
-        <h3>Mission Rules & Power System</h3>
+        <h3>Mission Rules</h3>
         <ul>
-          <li>Operating the probe continuously consumes battery power.</li>
-          <li>Deploy your solar panels <span>[P]</span> facing directly toward the Sun to recharge energy.</li>
-          <li><span class="warning-text">CRITICAL WARNING:</span> If power drops to <strong>0%</strong> or time runs out, the mission fails!</li>
+          <li>Deploy solar panels <span>[P]</span> facing the Sun to recharge battery.</li>
+          <li><span class="warning-text">CRITICAL WARNING:</span> Power drain or time expiration causes mission failure!</li>
         </ul>
       </div>
 
-      <!-- SELEZIONE MODALITÀ DI GIOCO -->
+      <!-- SELEZIONE 3 MODALITÀ -->
       <div class="mode-section">
         <h3>Select Mission Mode</h3>
         <div class="mode-btn-group">
-          <button type="button" id="mode-beginner" class="btn-primary">BEGINNER (STANDARD)</button>
-          <button type="button" id="mode-hardcore" class="btn-secondary">TIME ATTACK </button>
+          <button type="button" id="mode-beginner" class="btn-primary">TESTING THE PROBE</button>
+          <button type="button" id="mode-hardcore" class="btn-secondary">RUNNING OUT OF TIME</button>
+          <button type="button" id="mode-spinning" class="btn-secondary">SPINNING OUT OF SPACE</button>
         </div>
       </div>
       
-      <!-- SEZIONE RETTANGOLI SELEZIONE COLORI / TEXTURE -->
+      <!-- COLOR THEMES -->
       <div class="texture-section">
         <div class="selector-group">
           <h3>Crystal Theme</h3>
           <div class="color-picker-grid">
-            <div class="texture-card crystal-card card-cyan active" data-color="0x00ffff" data-emissive="0x0055aa">
-              <span>Cyan</span>
-            </div>
-            <div class="texture-card crystal-card card-red" data-color="0xff3300" data-emissive="0xaa0022">
-              <span>Red</span>
-            </div>
-            <div class="texture-card crystal-card card-gold" data-color="0xffcc00" data-emissive="0xaa7700">
-              <span>Gold</span>
-            </div>
+            <div class="texture-card crystal-card card-cyan active" data-color="0x00ffff" data-emissive="0x0055aa"><span>Cyan</span></div>
+            <div class="texture-card crystal-card card-red" data-color="0xff3300" data-emissive="0xaa0022"><span>Red</span></div>
+            <div class="texture-card crystal-card card-gold" data-color="0xffcc00" data-emissive="0xaa7700"><span>Gold</span></div>
           </div>
         </div>
 
         <div class="selector-group">
           <h3>Space Probe Hull</h3>
           <div class="color-picker-grid">
-            <div class="texture-card ship-card card-steel active" data-color="0xaaaaaa" data-roughness="0.3">
-              <span>Steel</span>
-            </div>
-            <div class="texture-card ship-card card-gold" data-color="0xffaa00" data-roughness="0.2">
-              <span>Gold</span>
-            </div>
-            <div class="texture-card ship-card card-dark" data-color="0x222233" data-roughness="0.5">
-              <span>Dark</span>
-            </div>
+            <div class="texture-card ship-card card-steel active" data-color="0xaaaaaa" data-roughness="0.3"><span>Steel</span></div>
+            <div class="texture-card ship-card card-gold" data-color="0xffaa00" data-roughness="0.2"><span>Gold</span></div>
+            <div class="texture-card ship-card card-dark" data-color="0x222233" data-roughness="0.5"><span>Dark</span></div>
           </div>
         </div>
       </div>
@@ -375,8 +373,8 @@
         <div class="control-item"><span>Left / Right</span> Yaw Left / Right</div>
         <div class="control-item"><span>Up / Down</span> Pitch Up / Down</div>
         <div class="control-item"><span>A / D</span> Roll Left / Right</div>
-        <div class="control-item"><span>P</span> Deploy Solar Panels (Recharge)</div>
-        <div class="control-item"><span>R</span> Extend Arm (Precision Mode)</div>
+        <div class="control-item"><span>P</span> Deploy Solar Panels</div>
+        <div class="control-item"><span>R</span> Extend Arm</div>
         <div class="control-item"><span>G</span> Grab / Drop Crystal</div>
         <div class="control-item"><span>Mouse</span> Orbit / Zoom Camera</div>
       </div>
@@ -390,7 +388,7 @@
     <div class="modal-card" style="border-color: #00ff88; box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);">
       <h1 style="color: #00ff88;">MISSION ACCOMPLISHED</h1>
       <p style="color: #e0ffe0; font-size: 14px; margin-bottom: 20px;">
-        All energy crystals have been successfully recovered and delivered to the mothership cargo bay!
+        All energy crystals have been successfully recovered and delivered!
       </p>
       <div class="btn-group">
         <button id="victory-restart-btn" class="btn-primary">RESTART</button>
@@ -404,7 +402,7 @@
     <div class="modal-card" style="border-color: #ff3300; box-shadow: 0 0 25px rgba(255, 51, 0, 0.4);">
       <h1 style="color: #ff3300;">GAME OVER</h1>
       <p style="color: #ffaaaa; font-size: 14px; margin-bottom: 25px;">
-        Oh no! The space probe ran into a problem, drifting helplessly in deep space...
+        Oh no! The space probe ran out of power or collided into something, drifting helplessly in deep space...
       </p>
       <button id="restart-btn" class="btn-primary" style="background: linear-gradient(135deg, #ff3300, #ff8800); color: #ffffff;">
         RESTART
@@ -413,10 +411,20 @@
   </div>
 
   <script type="module">
-    // Flag e variabili globali di gioco
     window.isMissionStarted = false;
-    window.gameMode = 'beginner'; // 'beginner' | 'hardcore'
-    window.remainingTime = 180;   // 3 minutes
+    window.gameMode = 'beginner'; // 'beginner' | 'hardcore' | 'spinning'
+    window.remainingTime = 180;
+
+    window.addTimeBonus = function(seconds = 20) {
+      if (window.gameMode === 'beginner') return;
+      window.remainingTime += seconds;
+      const popup = document.getElementById('time-bonus-popup');
+      if (popup) {
+        popup.textContent = `+${seconds}s`;
+        popup.style.opacity = '1';
+        setTimeout(() => { popup.style.opacity = '0'; }, 1500);
+      }
+    };
 
     window.updateEnergyUI = function(energy) {
       const energyBar = document.getElementById('energy-bar');
@@ -444,38 +452,33 @@
 
       const btnBeginner = document.getElementById('mode-beginner');
       const btnHardcore = document.getElementById('mode-hardcore');
+      const btnSpinning = document.getElementById('mode-spinning');
 
       if (bgMusic) bgMusic.volume = 0.4;
 
-      // Gestione selezione bottoni modalità
-      if (btnBeginner && btnHardcore) {
-        btnBeginner.addEventListener('click', () => {
-          window.gameMode = 'beginner';
-          btnBeginner.className = 'btn-primary';
-          btnHardcore.className = 'btn-secondary';
-        });
-
-        btnHardcore.addEventListener('click', () => {
-          window.gameMode = 'hardcore';
-          btnHardcore.className = 'btn-primary';
-          btnBeginner.className = 'btn-secondary';
-        });
+      function setMode(mode, activeBtn) {
+        window.gameMode = mode;
+        [btnBeginner, btnHardcore, btnSpinning].forEach(b => b.className = 'btn-secondary');
+        activeBtn.className = 'btn-primary';
       }
 
-      // Avvio missione
+      if (btnBeginner) btnBeginner.addEventListener('click', () => setMode('beginner', btnBeginner));
+      if (btnHardcore) btnHardcore.addEventListener('click', () => setMode('hardcore', btnHardcore));
+      if (btnSpinning) btnSpinning.addEventListener('click', () => setMode('spinning', btnSpinning));
+
       startBtn.addEventListener('click', () => {
         window.isMissionStarted = true;
 
         if (bgMusic) {
-          bgMusic.play().catch(err => console.warn('Audio bloccato dal browser:', err));
+          bgMusic.play().catch(err => console.warn('Audio bloccato:', err));
         }
 
         startOverlay.classList.add('hidden');
         hud.classList.remove('hidden');
         document.body.classList.add('lil-gui-visible');
 
-        // Countdown attivo solo in modalità Hardcore
-        if (window.gameMode === 'hardcore' && timerBox) {
+        if ((window.gameMode === 'hardcore' || window.gameMode === 'spinning') && timerBox) {
+          window.remainingTime = window.gameMode === 'spinning' ? 90 : 120; // 90s per Spinning Mode
           timerBox.style.display = 'block';
           const timerInterval = setInterval(() => {
             if (!window.isMissionStarted) {
@@ -484,8 +487,8 @@
             }
 
             window.remainingTime--;
-            const mins = Math.floor(window.remainingTime / 60).toString().padStart(2, '0');
-            const secs = (window.remainingTime % 60).toString().padStart(2, '0');
+            const mins = Math.floor(Math.max(0, window.remainingTime) / 60).toString().padStart(2, '0');
+            const secs = (Math.max(0, window.remainingTime) % 60).toString().padStart(2, '0');
             if (timerText) timerText.textContent = `${mins}:${secs}`;
 
             if (window.remainingTime <= 0) {
@@ -497,13 +500,10 @@
         }
       });
 
-      // Gestione pulsanti di riavvio
       const restartBtns = [document.getElementById('restart-btn'), document.getElementById('victory-restart-btn')];
       restartBtns.forEach(btn => {
         if (btn) {
-          btn.addEventListener('click', () => {
-            location.reload();
-          });
+          btn.addEventListener('click', () => location.reload());
         }
       });
     });
