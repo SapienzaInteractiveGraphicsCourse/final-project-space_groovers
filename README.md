@@ -66,7 +66,7 @@ If you want to run the game locally, follow these steps:
 
 
 Project Structure
-
+```plaintext
 ├── public/
 │   ├── background-music.mp3
 │   └── textures/
@@ -82,3 +82,4 @@ Project Structure
 ├── index.html
 ├── package.json
 └── README.md
+```
