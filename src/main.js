@@ -34,14 +34,13 @@ let isSolarPanelsDeployed = false;
 let isGameOver = false;
 let isVictory = false;
 let isFreeNavigationMode = false;
-// Variabile per l'intensità del tremolio
 let shakeIntensity = 0.0;
 
-// Funzione globale per innescare il tremolio
 function triggerCameraShake(intensity = 0.4) {
   shakeIntensity = intensity;
 }
-// 1. Dynamic Themes Configuration
+
+// Dynamic Themes Configuration
 const crystalTheme = {
   color: 0x00ffff,
   emissive: 0x0055aa
@@ -52,7 +51,7 @@ const shipTheme = {
   roughness: 0.3
 };
 
-// 2. Scene and Camera Setup
+// Scene and Camera Setup
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x020208);
 
@@ -74,7 +73,7 @@ const cameraSettings = {
   isFirstPerson: false 
 };
 
-// 3. Scene Elements
+// Scene Elements
 const lights = new Lights(scene);
 const starField = new DataGalaxy(scene);
 const cargoShip = new CargoShip(scene);
@@ -146,7 +145,7 @@ victoryContinueBtn.addEventListener('click', () => {
   isFreeNavigationMode = true;
 });
 
-// 4. Energy Management System
+// Energy Management System
 let energy = 100.0;
 const MAX_ENERGY = 100.0;
 
@@ -172,9 +171,7 @@ function updateEnergyUI() {
   }
 }
 
-// -------------------------------------------------------------
-// 5. Entities, Active Orbit Satellites & Micro-Asteroids
-// -------------------------------------------------------------
+//  Entities, Active Orbit Satellites & Micro-Asteroids
 const rocks = [];
 const TOTAL_ROCKS = 6;
 totalRocksEl.textContent = TOTAL_ROCKS;
@@ -214,7 +211,6 @@ function createSatelliteMesh(radius, speed, height, angleOffset) {
     angle: angleOffset
   };
 
-  // Posizione iniziale corretta
   satGroup.position.set(
     Math.cos(angleOffset) * radius,
     height,
@@ -342,10 +338,9 @@ function checkHazardCollisions() {
 
   const probePos = spaceProbe.probeGroup.position;
 
-  // Collisioni con satelliti
   for (const sat of satellites) {
     if (probePos.distanceTo(sat.position) < 2.4) {
-      triggerCameraShake(2.0); // Forte scossone all'impatto distruttivo
+      triggerCameraShake(2.0); 
       energy = 0;
       updateEnergyUI();
       statusMsgEl.style.color = '#ff0033';
@@ -355,10 +350,9 @@ function checkHazardCollisions() {
     }
   }
 
-  // Collisioni con micro-asteroidi
   for (const ast of asteroids) {
     if (probePos.distanceTo(ast.position) < 1.6) {
-      triggerCameraShake(1.2); // Scossone medio all'impatto con detriti
+      triggerCameraShake(1.2); 
       energy = Math.max(0, energy - 20);
       updateEnergyUI();
       statusMsgEl.style.color = '#ff4400';
@@ -369,10 +363,10 @@ function checkHazardCollisions() {
   }
 }
 
-// 6. User Interface
+// User Interface
 const gui = new UserInterface(lights, spaceProbe, cameraSettings, handleGrabDropAction);
 
-// 7. Robotic Arm Interaction & Delivery Bonus
+// Robotic Arm Interaction & Delivery Bonus
 function handleGrabDropAction() {
   if (!isMissionStarted || isGameOver || (isVictory && !isFreeNavigationMode)) return;
 
@@ -411,7 +405,7 @@ function handleGrabDropAction() {
       statusMsgEl.style.color = '#00ff88';
 
       // BONUS CONSEGNA RAPIDA (+20s)
-      if (window.gameMode !== 'beginner' && window.addTimeBonus) {
+      if (window.addTimeBonus) {
         window.addTimeBonus(20);
       }
 
@@ -457,7 +451,7 @@ function handleGrabDropAction() {
   }
 }
 
-// 8. Keyboard Controls
+// Keyboard Controls
 const keys = {
   KeyW: false, KeyS: false, KeyA: false, KeyD: false,
   KeyQ: false, KeyE: false, ArrowUp: false, ArrowDown: false,
@@ -626,7 +620,7 @@ function handleMovement(deltaTime) {
   }
 }
 
-// 9. Solar Charging System
+// Solar Charging System
 function handleSolarRecharge(deltaTime) {
   if (!isMissionStarted || isGameOver || (isVictory && !isFreeNavigationMode)) return;
 
@@ -688,7 +682,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// 11. Main Render Loop
+// Main Render Loop
 const clock = new THREE.Clock();
 
 function animate() {
@@ -700,7 +694,6 @@ function animate() {
   handleMovement(deltaTime);
   handleSolarRecharge(deltaTime);
   
-  // Collisioni con pericoli (satelliti e asteroidi)
   checkHazardCollisions();
 
   if (!cameraSettings.isFirstPerson) {
@@ -712,13 +705,13 @@ function animate() {
   cargoShip.update(deltaTime);
   starField.update(deltaTime);
 
-  // Animazione rotazione cristalli
+
   rocks.forEach(rock => {
     rock.rotation.x += 0.5 * deltaTime;
     rock.rotation.y += 0.8 * deltaTime;
   });
 
-  // Movimento orbitale attivo dei satelliti
+
   satellites.forEach(sat => {
     if (window.gameMode === 'spinning') {
       sat.userData.angle += sat.userData.orbitSpeed * deltaTime;
@@ -730,7 +723,6 @@ function animate() {
     sat.rotation.z += 0.2 * deltaTime;
   });
 
-  // Rotazione micro-asteroidi
   asteroids.forEach(ast => {
     ast.rotation.x += ast.userData.rotSpeedX * deltaTime;
     ast.rotation.y += ast.userData.rotSpeedY * deltaTime;
@@ -739,7 +731,7 @@ function animate() {
   if (starField && starField.starField) {
     starField.starField.position.copy(camera.position);
   }
-  // --- CAMERA & TARGET SHAKE UPDATE ---
+  // CAMERA & TARGET SHAKE UPDATE 
   if (shakeIntensity > 0) {
     const shakeOffsetX = (Math.random() - 0.5) * shakeIntensity;
     const shakeOffsetY = (Math.random() - 0.5) * shakeIntensity;
@@ -749,14 +741,12 @@ function animate() {
     camera.position.y += shakeOffsetY;
     camera.position.z += shakeOffsetZ;
 
-    // Scuote anche il punto di mira per rendere il colpo visibile
     if (!cameraSettings.isFirstPerson) {
       controls.target.x += shakeOffsetX * 0.5;
       controls.target.y += shakeOffsetY * 0.5;
       controls.target.z += shakeOffsetZ * 0.5;
     }
 
-    // Decadimento rapido ma percepibile
     shakeIntensity = Math.max(0, shakeIntensity - deltaTime * 3.0);
   }
   // ------------------------------------

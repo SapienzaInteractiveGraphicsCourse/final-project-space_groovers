@@ -1,12 +1,15 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  // For github action
+  base: '/final-project-space_groovers/',
+  
   root: './',
   publicDir: 'public',
   build: {
     outDir: 'dist',
   },
   server: {
-    open: true // Apre automaticamente la pagina nel browser all'avvio
+    open: true // open the browser page
   }
 });

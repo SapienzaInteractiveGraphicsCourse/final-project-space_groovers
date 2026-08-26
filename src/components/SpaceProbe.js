@@ -7,13 +7,12 @@ export class SpaceProbe {
     this.probeGroup = new THREE.Group();
     this.boundingBox = new THREE.Box3();
 
-    // Riferimento al mesh per il cambio skin dinamico
     this.bodyMesh = null;
 
     this.leftArmGroup = null;
     this.rightArmGroup = null;
     
-    // Componenti Braccio Robotico
+    // Robotic arm
     this.armBaseGroup = null;
     this.upperArmGroup = null;
     this.forearmGroup = null;
@@ -80,7 +79,7 @@ export class SpaceProbe {
       emissiveIntensity: 0.8
     });
 
-    // 1. CORPO CENTRALE
+    // Sun
     const bodyGeometry = new THREE.CylinderGeometry(1, 1, 2.2, 16);
     this.bodyMesh = new THREE.Mesh(bodyGeometry, goldFoilMaterial);
     this.bodyMesh.rotation.x = Math.PI / 2;
@@ -93,7 +92,7 @@ export class SpaceProbe {
     ring2.position.z = 0.6;
     this.probeGroup.add(ring1, ring2);
 
-    // 2. BRACCIO ROBOTICO GERARCHICO
+    // Robotic arm
     this.armBaseGroup = new THREE.Group();
     this.armBaseGroup.position.set(0, 0, -1.1);
     this.probeGroup.add(this.armBaseGroup);
@@ -133,7 +132,6 @@ export class SpaceProbe {
     wristSensorMesh.position.set(0, 0, -0.9);
     this.forearmGroup.add(wristSensorMesh);
 
-    // PINZE
     const clawGeo = new THREE.BoxGeometry(0.05, 0.2, 0.3);
     this.leftClaw = new THREE.Mesh(clawGeo, darkMetalMaterial);
     this.leftClaw.position.set(-0.1, 0, -1.05);
@@ -146,7 +144,6 @@ export class SpaceProbe {
     this.upperArmGroup.rotation.x = Math.PI / 3;
     this.forearmGroup.rotation.x = -Math.PI / 2.2;
 
-    // 3. PROPULSORE
     const nozzleGeo = new THREE.CylinderGeometry(0.4, 0.6, 0.5, 16);
     const nozzleMesh = new THREE.Mesh(nozzleGeo, metalMaterial);
     nozzleMesh.position.set(0, 0, 1.2);
@@ -215,7 +212,6 @@ export class SpaceProbe {
     this.scene.add(this.particleSystem);
   }
 
-  // Metodo aggiunto per cambiare dinamicamente la skin
   applySkin(skinKey) {
     if (!this.bodyMesh) return;
 
@@ -241,13 +237,11 @@ export class SpaceProbe {
     mat.needsUpdate = true;
   }
 
-  // Restituisce la posizione nello spazio 3D della pinza
   getGripperWorldPosition() {
     const pos = new THREE.Vector3(0, 0, -1.2);
     return this.forearmGroup.localToWorld(pos);
   }
 
-  // Aggancia l'oggetto specificato alle pinze
   attachObject(objMesh) {
     this.carriedObject = objMesh;
     this.forearmGroup.add(objMesh);
@@ -258,7 +252,6 @@ export class SpaceProbe {
     this.rightClaw.position.x = 0.025;
   }
 
-  // Rilascia l'oggetto trasportato nello spazio
   detachObject() {
     if (!this.carriedObject) return null;
 

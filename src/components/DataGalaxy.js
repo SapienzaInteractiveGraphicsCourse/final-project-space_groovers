@@ -54,7 +54,6 @@ export class DataGalaxy {
   }
 
   _createBackgroundPlanets() {
-    // 1. Gigante Gassoso Dorato con Anelli (Stile Saturno)
     const gasGiant = new THREE.Group();
     const bodyGeo = new THREE.SphereGeometry(30, 64, 64);
     const bodyMat = new THREE.MeshStandardMaterial({
@@ -65,7 +64,7 @@ export class DataGalaxy {
     const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
     gasGiant.add(bodyMesh);
 
-    // Anelli
+    // Rings
     const ringGeo = new THREE.RingGeometry(38, 65, 64);
     const ringMat = new THREE.MeshStandardMaterial({
       color: 0xaa8855,
@@ -82,7 +81,7 @@ export class DataGalaxy {
     this.scene.add(gasGiant);
     this.backgroundPlanets.push({ mesh: gasGiant, rotSpeed: 0.02 });
 
-    // 2. Pianeta Ghiacciato Azzurro
+    // Planet
     const icePlanetGeo = new THREE.SphereGeometry(22, 48, 48);
     const icePlanetMat = new THREE.MeshStandardMaterial({
       color: 0x22aaff,
@@ -96,7 +95,6 @@ export class DataGalaxy {
     this.scene.add(icePlanet);
     this.backgroundPlanets.push({ mesh: icePlanet, rotSpeed: 0.015 });
 
-    // 3. Pianeta Vulcanico Rosso
     const lavaPlanetGeo = new THREE.SphereGeometry(18, 32, 32);
     const lavaPlanetMat = new THREE.MeshStandardMaterial({
       color: 0xaa2200,
@@ -109,7 +107,6 @@ export class DataGalaxy {
     this.scene.add(lavaPlanet);
     this.backgroundPlanets.push({ mesh: lavaPlanet, rotSpeed: 0.03 });
 
-    // 4. Pianeta Alieno Viola con Atmosfera Luminosa
     const purpleGroup = new THREE.Group();
     const purpleGeo = new THREE.SphereGeometry(26, 48, 48);
     const purpleMat = new THREE.MeshStandardMaterial({
@@ -136,7 +133,7 @@ export class DataGalaxy {
   }
 
   update(deltaTime) {
-    // Lenta rotazione dei pianeti di sfondo
+    // Slow rotation of planet
     this.backgroundPlanets.forEach(p => {
       p.mesh.rotation.y += p.rotSpeed * deltaTime;
     });
