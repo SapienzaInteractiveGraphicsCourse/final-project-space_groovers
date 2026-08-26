@@ -412,7 +412,7 @@ function handleGrabDropAction() {
       if (score >= TOTAL_ROCKS) {
         triggerVictory();
       } else {
-        // Messaggio differenziato in base alla modalità
+      
         if (window.gameMode === 'beginner') {
           statusMsgEl.textContent = `Crystal Delivered! Retract arm [R] to fly fast.`;
         } else {
