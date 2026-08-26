@@ -411,14 +411,19 @@ function handleGrabDropAction() {
       statusMsgEl.style.color = '#00ff88';
 
       // BONUS CONSEGNA RAPIDA (+20s)
-      if (window.addTimeBonus) {
+      if (window.gameMode !== 'beginner' && window.addTimeBonus) {
         window.addTimeBonus(20);
       }
 
       if (score >= TOTAL_ROCKS) {
         triggerVictory();
       } else {
-        statusMsgEl.textContent = `Crystal Delivered! (+20s Bonus). Retract arm [R] to fly fast.`;
+        // Messaggio differenziato in base alla modalità
+        if (window.gameMode === 'beginner') {
+          statusMsgEl.textContent = `Crystal Delivered! Retract arm [R] to fly fast.`;
+        } else {
+          statusMsgEl.textContent = `Crystal Delivered! (+20s Bonus). Retract arm [R] to fly fast.`;
+        }
       }
     } else {
       const droppedRock = spaceProbe.detachObject();
