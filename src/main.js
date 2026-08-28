@@ -403,7 +403,7 @@ function handleGrabDropAction() {
       scoreEl.textContent = score;
       statusMsgEl.style.color = '#00ff88';
 
-      // BONUS CONSEGNA RAPIDA (+20s)
+      // BONUS QUICK DELIVERY (+20s)
       if (window.addTimeBonus) {
         window.addTimeBonus(20);
       }
