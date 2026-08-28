@@ -352,17 +352,16 @@ function checkHazardCollisions() {
 
   for (const ast of asteroids) {
     if (probePos.distanceTo(ast.position) < 1.6) {
-      triggerCameraShake(1.2); 
-      energy = Math.max(0, energy - 20);
+      triggerCameraShake(1.5); 
+      energy = 0;
       updateEnergyUI();
-      statusMsgEl.style.color = '#ff4400';
-      statusMsgEl.textContent = 'COLLISION WITH ASTEROID! HULL DAMAGED (-20% POWER)';
-      if (energy <= 0) triggerGameOver();
+      statusMsgEl.style.color = '#ff0033';
+      statusMsgEl.textContent = 'CRITICAL IMPACT WITH ASTEROID! HULL DESTROYED!';
+      triggerGameOver();
       return;
     }
   }
 }
-
 // User Interface
 const gui = new UserInterface(lights, spaceProbe, cameraSettings, handleGrabDropAction);
 
